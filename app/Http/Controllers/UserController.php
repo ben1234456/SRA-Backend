@@ -30,13 +30,9 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        error_log("?");
-        // error_log($request->phone_number);
-        // error_log($request->email);
-        // error_log($request->password);
+
         $user = new User;
         $user->first_name = $request->user_name;
-        // $user->phone_number = $request->phone_number;
         $user->email = $request->email;
         $user->gender = $request->gender;
         $user->password = Hash::make($request->password);
@@ -80,9 +76,11 @@ class UserController extends Controller
         $user->dob = $dob;
         $user->gender = $request->gender;
         $status = $user->save();
+
+        $updatedUser = User::where('id', $user->id)->first();
         
         if($status){
-            return response()->json(['status' => 'success', 'user' => $user]);
+            return response()->json(['status' => 'success', 'user' => $updatedUser]);
         }
         else{
             return response()->json(['status' => 'fail']);
