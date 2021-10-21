@@ -68,6 +68,8 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
+        error_log("JH");
+
         $user->first_name = $request->name;
         $user->email = $request->email;
         $user->city = $request->city;
