@@ -68,8 +68,6 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        error_log("JH");
-
         $user->first_name = $request->name;
         $user->email = $request->email;
         $user->city = $request->city;
@@ -134,7 +132,7 @@ class UserController extends Controller
         
         $userID = $user->id;
         
-        $searchedUser=User::where("id","=",$userID)->get();
+        $searchedUser=User::where("id","=",$userID)->first();
 
         return $searchedUser->toJson();
 
