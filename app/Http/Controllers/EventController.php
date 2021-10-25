@@ -133,10 +133,7 @@ class EventController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy(Event $event)
-    {
-
-        error_log("????" + $event);
-        
+    {        
         $status = $event->delete();
 
         return $event->toJson();
@@ -162,14 +159,11 @@ class EventController extends Controller
         }
 
         
-
         // $user_id = $user->id;
 
         // $user_events = UserEvent::where('user_id', $user_id)->get();
 
         // $user_exclusive_events = Event::whereNotIn('id', $user_events)->get();
-
-        
 
         return $eventList;
 
