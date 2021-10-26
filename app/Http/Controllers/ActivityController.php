@@ -76,12 +76,10 @@ class ActivityController extends Controller
             if ($added_distance > $userevent->distance){
                 $userevent->distance_ran = $userevent->distance;
                 $userevent->status = "completed";
-                error_log("1");
             }
 
             else{
                 $userevent->distance_ran = $added_distance;
-                error_log("2");
             }
 
             $userevent->save();

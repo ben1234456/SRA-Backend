@@ -44,10 +44,10 @@ class BuddyRequestController extends Controller
      * @param  \App\Models\BuddyRequest  $buddyRequest
      * @return \Illuminate\Http\Response
      */
-    public function show(BuddyRequest $buddyRequest)
+    public function show($buddyRequest)
     {
-        //
-        return $buddyRequest->toJson();
+        $br = BuddyRequest::where("id",$buddyRequest)->first();
+        return $br->toJson();
     }
 
     /**
