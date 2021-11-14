@@ -139,7 +139,7 @@ class UserController extends Controller
 
     }
 
-    public function changePassword(Request $request)
+    public function checkPassword(Request $request)
     {
         $user = User::where("id", $request->user_id)->first();
 
@@ -151,6 +151,19 @@ class UserController extends Controller
 
         else{
             error_log($request->password);
+            return response()->json(['status' => 'fail']);
+        }
+    }
+
+    public function changePassword(Request $request, User $user)
+    {
+        $user->password = Hash::make($request->password);
+        $status = $user->save();
+        
+        if($status){
+            return response()->json(['status' => 'success']);
+        }
+        else{
             return response()->json(['status' => 'fail']);
         }
     }
