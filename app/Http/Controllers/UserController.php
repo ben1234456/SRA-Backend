@@ -139,9 +139,9 @@ class UserController extends Controller
 
     }
 
-    public function changePassword(User $user, $password)
+    public function changePassword(Request $request, User $user)
     {
-        if (Hash::check($password, $user->password)) {
+        if (Hash::check($request->$password, $user->password)) {
             // The passwords match...
             return response()->json(['status' => 'success']);
         }
