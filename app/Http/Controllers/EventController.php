@@ -136,7 +136,12 @@ class EventController extends Controller
     {        
         $status = $event->delete();
 
-        return $event->toJson();
+        if($status){
+            return response()->json(['status' => 'success', 'message' => 'Event succesfully deleted']);
+        }
+        else{
+            return response()->json(['status' => 'fail']);
+        }
     }
 
     //get events (excluded registered)

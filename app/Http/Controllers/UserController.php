@@ -127,6 +127,7 @@ class UserController extends Controller
         return $searchedUser->toJson();
 
     }
+
     public function searchUserById(User $user)
     {
         
@@ -136,5 +137,18 @@ class UserController extends Controller
 
         return $searchedUser->toJson();
 
+    }
+
+    public function changePassword(User $user, $password)
+    {
+        $hashpassword = Hash::make($password);
+
+        if ($user->password == $hashpassword){
+            return response()->json(['status' => 'success']);
+        }
+
+        else{
+            return response()->json(['status' => 'fail']);
+        }
     }
 }
