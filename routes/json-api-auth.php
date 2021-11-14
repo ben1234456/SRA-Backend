@@ -112,7 +112,7 @@ Route::get('/users/list/{user}/{userName}', [UserController::class, "searchUserB
 Route::get('/users/{user}', [UserController::class, "searchUserById"]);
 
 //check password
-Route::post('/users/{user}/password', [UserController::class, "changePassword"]);
+Route::post('/users/checkpassword', [UserController::class, "changePassword"]);
 
 //Buddy
 //search user buddy list

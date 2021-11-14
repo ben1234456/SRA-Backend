@@ -45,7 +45,14 @@ class ActivityController extends Controller
 
         $activity = new Activity;
 
-        $activity->activity_type = $request->activity_type;
+        if ($request->activity_type){
+            $activity->activity_type = $request->activity_type;
+        }
+
+        else{
+            $activity->activity_type = 'walking';
+        }
+        
         $activity->route_id = 1;
         $activity->start_lat = floatval($request->start_lat);
         $activity->start_lng = floatval($request->start_lng);
