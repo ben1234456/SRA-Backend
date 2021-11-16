@@ -237,7 +237,7 @@ class UserController extends Controller
         $averagePace = round($totalDistance / ($hour + $minute/60 + $second/60/60), 2);
 
         $user-> total_duration = $totalDuration;
-        $user-> total_distance = $totalDistance;
+        $user-> total_distance = round($totalDistance,2);
         $user-> average_pace = $averagePace;
 
         return $user->toJson();
