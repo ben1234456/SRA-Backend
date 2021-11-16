@@ -117,6 +117,9 @@ Route::post('/users/checkpassword', [UserController::class, "checkPassword"]);
 //change password
 Route::put('/users/{user}/updatepassword', [UserController::class, "updatePassword"]);
 
+//get user activity information
+Route::get('/activities/all/{user}', [UserController::class, "getActivity"]);
+
 //Buddy
 //search user buddy list
 Route::get('/buddy/buddyList/{user}', [BuddyController::class, "searchUserBuddyList"]);

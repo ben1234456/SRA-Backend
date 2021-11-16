@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\UserController;
+use Carbon\Carbon;
 use App\Models\Buddy;
+use App\Models\Activity;
+use App\Models\UserActivity;
 use App\Models\User;
 use App\Models\Users;
 use App\Models\UserList;
@@ -167,4 +170,78 @@ class UserController extends Controller
             return response()->json(['status' => 'fail']);
         }
     }
+
+    public function getActivity(User $user)
+    {
+        $userActivity = UserActivity::where("user_id", $user->id)->get();
+        $activityIdArray = array(); // to store the activities' ids
+        $activityArray = array(); // to store the activities
+
+        $add = false;
+        $totalDuration = "00:00:00";
+        $totalDistance = 0;
+
+        //if not empty
+        if($userActivity){
+            foreach ($userActivity as $activity){
+                array_push($activityIdArray, $activity->activity_id);
+            }
+
+            foreach($activityIdArray as $id){
+                $activity = Activity::where("id", $id)->first();
+                $totalDistance += $activity->total_distance; //add to total distance
+
+                //add to total duration
+                $second = (int)substr($totalDuration,6,2) + (int)substr($activity->total_duration,6,2);
+                if ($second > 60){
+                    $add = true;
+                    $second -= 60;
+                }
+
+                $minute = (int)substr($totalDuration,3,2) + (int)substr($activity->total_duration,3,2);
+
+                //add 1 to minute
+                if ($add){
+                    $minute += 1;
+                    $add = false;
+                }
+
+                if ($minute > 60){
+                    $add = true;
+                    $minute -= 60;
+                }
+
+                $hour = (int)substr($totalDuration,0,2) + (int)substr($activity->total_duration,0,2);
+                //add 1 to hour
+                if ($add){
+                    $hour += 1;
+                    $add = false;
+                }
+
+                //add 0 if single digit
+                if (strlen(strval($second)) == 1){
+                    $second = "0" . strval($second); 
+                }
+
+                if (strlen(strval($minute)) == 1){
+                    $minute = "0" . strval($minute); 
+                }
+
+                //update total duration
+                $totalDuration = strval($hour) . ":" . strval($minute) . ":" . strval($second);
+            }
+            
+        }
+
+        //calculate average pace
+        $averagePace = round($totalDistance / ($hour + $minute/60 + $second/60/60), 2);
+
+        $user-> total_duration = $totalDuration;
+        $user-> total_distance = $totalDistance;
+        $user-> average_pace = $averagePace;
+
+        return $user->toJson();
+    }
+
+    
 }
